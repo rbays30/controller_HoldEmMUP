@@ -38,8 +38,8 @@ canvas.height = window.innerHeight-1;
 ctx.fillStyle = "#808080";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.fillStyle = "#000000";
-ctx.font = "48px serif";
-ctx.fillText("Touch", 100, 100);
+ctx.font = "40px serif";
+ctx.fillText("Please Log In", 100, 100, window.innerWidth/2 );
 
 
 function screenChange() {

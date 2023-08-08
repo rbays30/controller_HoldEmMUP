@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-    <title>GameNite Controlpad</title>
+    <title>HoldEm MUP Gamepad</title>
     <style>
       html,
       body {
@@ -19,10 +19,74 @@
       canvas {
           display: block
       }
+      .modal {
+      display: block; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+      height: 80%;
+    }
+
+    /* The Close Button */
+    .loginButton {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .loginButton:hover,
+    .loginButton:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
     </style>
   </head>
   <body>
-    <canvas></canvas>
+
+    <canvas>
+
+    </canvas>
+    <div id ="loginModal" class="modal">
+      <div class="modal-content">
+        <form onsubmit="event.preventDefault();">
+          <label for="playerName">Player name:</label><br>
+          <input type="text" id="playerName" name="playerName"><br>
+
+          <input type="radio" id="red" name="playerColor" value="red">
+          <label for="red">Red</label><br>
+          <input type="radio" id="blue" name="playerColor" value="blue">
+          <label for="blue">Blue</label><br>
+          <input type="radio" id="green" name="playerColor" value="green">
+          <label for="green">Green</label><br>
+          <input type="radio" id="yellow" name="playerColor" value="yellow">
+          <label for="yellow">Yellow</label><br>
+
+          <input id="loginButton" class="loginButton" type="submit" value="Enter the Game!">
+
+
+
+        </form>
+
+        <!-- <button id="loginButton" class="input">Enter the Game</button> -->
+      </div>
+    </div>
     <script src="app.js"></script>
     <script src="index.js"></script>
   </body>

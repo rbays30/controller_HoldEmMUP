@@ -8,6 +8,17 @@ var image_drawables = [];
 var needs_draw = false;
 var logo_image = new Image();
 
+// ---- Modal ----
+var modal = document.getElementById("loginModal");
+var loginButton = document.getElementById("loginButton");
+
+// When the user clicks on loginButton, close the modal
+loginButton.onclick = function() {
+    modal.style.display = "none";
+  }
+
+
+
 // ---- onFlip ----
 
 function onFlip(width, height) {
