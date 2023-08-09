@@ -13,12 +13,20 @@ var modal = document.getElementById("loginModal");
 var loginButton = document.getElementById("loginButton");
 
 // When the user clicks on loginButton, close the modal
-loginButton.onclick = function() {
+function UserValidate() {
+    event.preventDefault();
     var playerName = document.getElementById("playerName").value;
-    var playerColor = document.getElementById("playerColor").value;
-    console.log(playerColor.toString());
-    let msg = "NewPlayer(" + playerName + ")";
-    messages.push(msg);
+    var playerColor = document.querySelector('input[name="playerColor"]:checked').value;
+    
+    {
+        let msg = "NewPlayer(" + playerName + ")";
+        messages.push(msg);
+
+        msg = "PlayerColor(" + playerColor + ")";
+        messages.push(msg);
+
+    }
+   
 
 
     modal.style.display = "none";

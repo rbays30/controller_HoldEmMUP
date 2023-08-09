@@ -65,17 +65,17 @@
     </canvas>
     <div id ="loginModal" class="modal">
       <div class="modal-content">
-        <form onsubmit="event.preventDefault();">
+        <form onsubmit="UserValidate()">
           <label for="playerName">Player name:</label><br>
-          <input type="text" id="playerName" name="playerName"><br>
+          <input type="text" id="playerName" name="playerName" required><br>
 
-          <input type="radio" id="playerColor" name="playerColor" value="red">
+          <input type="radio" id="playerColor" name="playerColor" value="red" required>
           <label for="red">Red</label><br>
-          <input type="radio" id="playerColor" name="playerColor" value="blue">
+          <input type="radio" id="playerColor" name="playerColor" value="blue" required>
           <label for="blue">Blue</label><br>
-          <input type="radio" id="playerColor" name="playerColor" value="green">
+          <input type="radio" id="playerColor" name="playerColor" value="green" required>
           <label for="green">Green</label><br>
-          <input type="radio" id="playerColor" name="playerColor" value="yellow">
+          <input type="radio" id="playerColor" name="playerColor" value="yellow" required>
           <label for="yellow">Yellow</label><br>
 
           <input id="loginButton" class="loginButton" type="submit" value="Enter the Game!">
