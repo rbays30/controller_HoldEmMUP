@@ -14,6 +14,13 @@ var loginButton = document.getElementById("loginButton");
 
 // When the user clicks on loginButton, close the modal
 loginButton.onclick = function() {
+    var playerName = document.getElementById("playerName").value;
+    var playerColor = document.getElementById("playerColor").value;
+    console.log(playerColor.toString());
+    let msg = "NewPlayer(" + playerName + ")";
+    messages.push(msg);
+
+
     modal.style.display = "none";
   }
 
@@ -66,14 +73,14 @@ function getDrawables() {
 function handleTouchStart(id, x, y) {
     let msg = "TouchStart(" + x.toString() + "," + y.toString() + ")";
     messages.push(msg);
-    //
-    image_drawables.push({
-        type: 'image',
-        image: logo_image,
-        x: x,
-        y: y,
-        rotation: 0,
-    });
+    
+    // image_drawables.push({
+    //     type: 'image',
+    //     image: logo_image,
+    //     x: x,
+    //     y: y,
+    //     rotation: 0,
+    // });
     needs_draw = true;
 }
 
