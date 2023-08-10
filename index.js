@@ -29,25 +29,15 @@ const box_ip = window.location.href.split('/')[2].split(':')[0];
 console.log(subid);
 
 // canvas
-const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
 
 canvas.width = window.innerWidth-1;
 canvas.height = window.innerHeight-1;
-
-ctx.fillStyle = "#808080";
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-ctx.fillStyle = "#000000";
-ctx.font = "40px serif";
-ctx.fillText("Please Log In", 100, 100, window.innerWidth/2 );
 
 
 function screenChange() {
     canvas.width = window.innerWidth-1;
     canvas.height = window.innerHeight-1;
-
-    ctx.fillStyle = "#808080";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    draw_cards();
     console.log('resize fill');
     onFlip(window.innerWidth, window.innerHeight);
 }    
