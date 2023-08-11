@@ -71,6 +71,36 @@ function onFlip(width, height) {
 // handle a single message from the console
 function handleMessage(message) {
     console.log('got ' + message);
+    if (message.includes("RequestGameState("))
+    {
+        console.log("Console wants to confirm gamestate");
+        messageCut = message.substring(17, message.length - 1);
+        var messageArray = messageCut.split(",");
+        if (messageArray[0] == "1")
+        {
+            playerName = messageArray[1];
+            let colorCode = messageArray[2];
+            if (colorCode == 0)
+            {
+                playerColor = "red";
+            }
+            else if (colorCode == 1)
+            {
+                playerColor = "green";
+            }
+            else if (colorCode == 2)
+            {
+                playerColor = "blue";
+            }
+            else 
+            {
+                playerColor = "yellow";
+            }
+            startGame();
+            
+        }
+
+    }
     text_drawables = [];
     const drbl = {
         type: 'text',
@@ -222,6 +252,13 @@ function controlpadStart(width, height) {
         console.log('natural: ' + this.naturalWidth + ', ' + this.naturalHeight);
 
     };
+
+    //Initial Handshake with server
+    let msg = "RequestGameState()";
+    messages.push(msg);
+    // loadGame();
+
+
     
 }
 
@@ -336,8 +373,6 @@ function UserValidate() {
         messages.push(msg);
     }
    
-
-
     startGame();
   }
 
@@ -350,9 +385,8 @@ function UserValidate() {
     modal.style.display = "none";
     gameStarted = 1;
     cards.push( {x:canvasCenterX,y:canvasCenterY, width:widthCard,height:heightCard,color:playerColor, number:randomCard()});
-    
     draw_cards();
 
-
   }
+
 
