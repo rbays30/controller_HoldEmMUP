@@ -143,7 +143,7 @@ ws.onopen = (event) => {
             y += parseInt(ctx.font) / 3;
         }
         ctx.fillStyle = color;
-        ctx.fillText(text, x, y);
+        // ctx.fillText(text, x, y);
     }
 
     function draw_rect(x, y, w, h, color, outline) {
@@ -207,7 +207,7 @@ ws.onopen = (event) => {
         let drbls = getDrawables();
         if (drbls.length > 0) {
             ctx.fillStyle = "#808080";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // ctx.fillRect(0, 0, canvas.width, 150);
             for (drbl of drbls) {
                 draw_drawable(drbl);
             }

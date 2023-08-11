@@ -14,6 +14,8 @@ var playerColor = "";
 var playerName = "";
 var gameStarted = 0;
 
+
+
 //Canvas
 let canvas= document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
@@ -21,6 +23,24 @@ canvas.width = window.innerWidth-1;
 canvas.height = window.innerHeight-1;
 let offset_x;
 let offset_y;
+var widthCard = 200;
+var heightCard = 200;
+var canvasCenterX = canvas.width/2 - widthCard/2;
+var canvasCenterY = canvas.height/2 -heightCard/2;
+var incrementOffset = 75;
+
+var playerMoney = 100;
+var playerNumberHeight = 100;
+var playerNumberWidth = 100;
+var playerNumberOffset = 350;
+var playerNumberX = canvasCenterX + playerNumberWidth/2;
+var playerNumberY = canvasCenterY + playerNumberOffset;
+var theBobHopeFactor = playerNumberHeight/2;
+var rightCircleX = playerNumberX + playerNumberWidth + incrementOffset;
+var leftCircleX = playerNumberX - incrementOffset;
+var circleY = playerNumberY + playerNumberHeight/2;
+
+
 
 //Card Moving Variables
 let cards=[];
@@ -29,6 +49,7 @@ let is_dragging = false;
 let startX;
 let startY;
 let cardMoved = 0;
+let cardSubmitOffset = 300;
 
 // ---- Modal ----
 var modal = document.getElementById("loginModal");
@@ -86,6 +107,21 @@ function handleTouchStart(id, x, y) {
     // messages.push(msg);
     if(gameStarted)
     {
+        if(Math.sqrt((x - leftCircleX ) ** 2 + (y - circleY ) ** 2) < theBobHopeFactor)
+        {
+            playerMoney -= 1;
+            let msg = "UpdateNumber(" + playerMoney + ")";
+            messages.push(msg);
+            draw_cards()
+        }
+        if(Math.sqrt((x - rightCircleX ) ** 2 + (y - circleY ) ** 2) < theBobHopeFactor)
+        {
+            playerMoney += 1;
+            let msg = "UpdateNumber(" + playerMoney + ")";
+            messages.push(msg);
+            draw_cards()
+            
+        }
         startX = x;
         startY = y;
 
@@ -132,12 +168,14 @@ function handleTouchMove(id, x, y) {
 
         let dy = y - startY;
         cardMoved = cardMoved - dy;
-        console.log(cardMoved);
-        if ((cardMoved) > 300)
+        if ((cardMoved) > cardSubmitOffset)
         {
+            is_dragging=false;
             let msg = "CardSent("+ cards[current_card_index].number +")";
-            console.log(msg);
             messages.push(msg);
+            resetCard();
+            cards[0].number = randomCard();
+
         }
 
         let current_card = cards[current_card_index];
@@ -156,9 +194,11 @@ function handleTouchEnd(id, x, y) {
     // let msg = "TouchEnd(" + x.toString() + "," + y.toString() + ")";
     // messages.push(msg);
     if (!is_dragging) {
+  
         return;
     }
-    event.preventDefault();
+    resetCard();    
+    draw_cards();
     is_dragging = false;
 }
 
@@ -199,60 +239,77 @@ window.onresize = function() {get_offset();}
 canvas.onresize = function() {get_offset();}
 
 let randomCard = function() {
-    return Math.floor(Math.random()*10)
+    return Math.floor(Math.random()*10);
 }
-
-
-
-
-cards.push( {x:200,y:500, width:200,height:200,color:playerColor, number:randomCard()});
-
-
-let mouse_down = function(event) {
-    event.preventDefault();
-
-    startX = parseInt(event.clientX - offset_x);
-    startY = parseInt(event.clientY - offset_y);
-
-    let is_mouse_in_card = function(x,y,card) {
-        let card_left = card.x;
-        let card_right = card.x + card.width;
-        let card_top = card.y;
-        let card_bottom = card.y + card.height;
-
-        if (x > card_left && x < card_right && y > card_top && y < card_bottom ) {
-            return true;
-        }
-
-        return false;
-
-    }
-
-    let index = 0;
-    for (let card of cards) {
-        if (is_mouse_in_card(startX, startY, card)) {
-            current_card_index = index;
-            is_dragging = true;
-            return;
-
-        }
-        index++;
-
-    }
-
-}
-
 
 let draw_cards = function() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
     for (let card of cards) {
+
+        //Draw Submit
+        ctx.fillStyle = "black";
+        ctx.fillRect(card.x, canvasCenterY - cardSubmitOffset, card.width, card.height);
+        ctx.font = "50px Georgia";
+        ctx.textAlign="center";
+        ctx.textBaseline="middle";
+        ctx.fillStyle="white";
+        ctx.fillText("Submit",card.x + (card.width/2), canvasCenterY - cardSubmitOffset +(card.height/2) ,100);
+
+        //Draw Player Number
+        ctx.fillStyle = "black";
+        ctx.fillRect(playerNumberX , playerNumberY, playerNumberWidth, playerNumberHeight);
+        ctx.font = "50px Georgia";
+        ctx.textAlign="center";
+        ctx.textBaseline="middle";
+        ctx.fillStyle="white";
+        ctx.fillText(playerMoney, card.x + (playerNumberWidth), canvasCenterY + playerNumberOffset +(playerNumberHeight/2) ,100);
+
+        //Draw Circles
+
+        // Right Circle
+        ctx.beginPath();
+        ctx.arc(rightCircleX, circleY, theBobHopeFactor, 0, 2*Math.PI);
+        
+        // the outline
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
+
+        // the fill color
         ctx.fillStyle = playerColor;
-        ctx.fillRect(card.x, card.y, card.width, card.height, card.number);
+        ctx.fill();
+        ctx.fillStyle = "white";
+        ctx.fillText("+", rightCircleX, circleY)
+        
+        // Left Circle
+        ctx.beginPath();
+        ctx.arc(leftCircleX, circleY, theBobHopeFactor, 0, 2*Math.PI);
+        
+        // the outline
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
+
+        // the fill color
+        ctx.fillStyle = playerColor;
+        ctx.fill();
+        ctx.fillStyle = "white";
+        ctx.fillText("-", playerNumberX - incrementOffset, playerNumberY + playerNumberWidth/2)
+
+        
+
+//Draw Card
+        ctx.fillStyle = playerColor;
+        ctx.fillRect(card.x, card.y, card.width, card.height);
         ctx.font = "60px Georgia";
         ctx.textAlign="center";
         ctx.textBaseline="middle";
         ctx.fillStyle="white";
-        ctx.fillText(card.number,card.x+(card.width/2),card.y+(card.height/2),100);
+        ctx.fillText(card.number, card.x+(card.width/2),card.y+(card.height/2),100);
+
+        
+        
+
     }
 
 }
@@ -281,8 +338,21 @@ function UserValidate() {
    
 
 
+    startGame();
+  }
+
+  function resetCard() {
+    cards[0].y = canvasCenterY;
+    cardMoved = 0;
+  }
+
+  function startGame() {
     modal.style.display = "none";
-    gameStarted=1;
+    gameStarted = 1;
+    cards.push( {x:canvasCenterX,y:canvasCenterY, width:widthCard,height:heightCard,color:playerColor, number:randomCard()});
+    
     draw_cards();
+
+
   }
 
