@@ -13,23 +13,29 @@ var logo_image = new Image();
 var playerColor = "";
 var playerName = "";
 var gameStarted = 0;
+var playerMoney = 100;
 
 
 
-//Canvas
+//Canvas Initialization
 let canvas= document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth-1;
 canvas.height = window.innerHeight-1;
-let offset_x;
-let offset_y;
+
+//Card Appearance
 var widthCard = 200;
 var heightCard = 200;
+
+
+//Canvas Variables
 var canvasCenterX = canvas.width/2 - widthCard/2;
 var canvasCenterY = canvas.height/2 -heightCard/2;
 var incrementOffset = 75;
+let cardSubmitOffset = 300;
 
-var playerMoney = 100;
+
+
 var playerNumberHeight = 100;
 var playerNumberWidth = 100;
 var playerNumberOffset = 350;
@@ -49,12 +55,10 @@ let is_dragging = false;
 let startX;
 let startY;
 let cardMoved = 0;
-let cardSubmitOffset = 300;
 
 // ---- Modal ----
 var modal = document.getElementById("loginModal");
 var loginButton = document.getElementById("loginButton");
-
 
 
 // ---- onFlip ----
@@ -203,6 +207,7 @@ function handleTouchMove(id, x, y) {
             is_dragging=false;
             let msg = "CardSent("+ cards[current_card_index].number +")";
             messages.push(msg);
+
             resetCard();
             cards[0].number = randomCard();
 
@@ -263,24 +268,21 @@ function controlpadStart(width, height) {
 }
 
 
-
-let get_offset = function() {
-    let canvas_offsets = canvas.getBoundingClientRect();
-    offset_x = canvas_offsets.left;
-    offset_y = canvas_offsets.top;
-
-}
-
-get_offset();
-window.onresize = function() {get_offset();}
-canvas.onresize = function() {get_offset();}
-
 let randomCard = function() {
     return Math.floor(Math.random()*10);
 }
 
 let draw_cards = function() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
+    canvasCenterX = canvas.width/2 - widthCard/2;
+    canvasCenterY = canvas.height/2 -heightCard/2;
+
+    playerNumberX = canvasCenterX + playerNumberWidth/2;
+    playerNumberY = canvasCenterY + playerNumberOffset;
+    rightCircleX = playerNumberX + playerNumberWidth + incrementOffset;
+    leftCircleX = playerNumberX - incrementOffset;
+    circleY = playerNumberY + playerNumberHeight/2;
+
     for (let card of cards) {
 
         //Draw Submit
