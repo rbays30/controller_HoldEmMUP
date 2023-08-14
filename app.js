@@ -1,5 +1,6 @@
 // -------- GameNite Controller App --------
 
+
 // ---- Globals ----
 
 //Standard
@@ -100,6 +101,8 @@ function handleMessage(message) {
             {
                 playerColor = "yellow";
             }
+            playerMoney = parseInt(messageArray[3]);
+
             startGame();
             
         }
